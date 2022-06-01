@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>C-web: 管理员管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/cssFiles/adminCSS.css">
+</head>
+<body>
+    <div class="header">
+        <h1>C-web</h1>
+    </div>
+
+    <div class="titleLine">
+        <div class="pageName">管 理 系 统</div>
+        <a class="logoutBtn" id="logoutBtn">退出登录</a>
+        <div class="welcome" id="welcome"></div>
+    </div>
+    <span style="clear: both"></span>
+
+    <div class="menuColumn">
+        <div class="menuItem" id="webLog"> 网站日志 </div>
+        <hr class="menuHr">
+        <div class="menuItem" id="userList"> 用户列表 </div>
+        <hr class="menuHr">
+        <div class="menuItem" id="articleList"> 文章列表 </div>
+        <hr class="menuHr">
+        <div class="menuItem" id="songList"> 歌曲列表 </div>
+        <hr class="menuHr">
+        <div class="menuItem" id="movieList"> 电影列表 </div>
+    </div>
+
+    <div class="adminBoard" id="board">
+        <img src="/static/images/blackLogo.png" alt="图片加载失败" style="margin: 3% 0" height="400">
+        <div class="defaultMsg">
+            <div style="padding: 10% 10% 10% 10%; margin: 10% 10% 10% 10%">
+                C-web <hr class="defaultHr"> 欢迎使用
+            </div>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+
+    <div class="footer">
+        <h3>
+            Written by heejinzzz <br> <br>
+            email: 1273860443@qq.com
+        </h3>
+    </div>
+</body>
+
+<script src="/static/jsFiles/jquery-3.6.0.js"></script>
+<script>
+    function welcomeAdmin(data) {
+        welcome = document.getElementById("welcome")
+        welcome.innerText = "欢迎你，管理员：" + data
+    }
+
+    $.get("/admin/getAdminname", {}, welcomeAdmin)
+
+    logoutBtn = document.getElementById("logoutBtn")
+
+    function reOpenWindow() {
+        location.reload()
+    }
+
+    function logout() {
+        $.get("/admin/adminLogout", {}, reOpenWindow)
+    }
+
+    function confirmLogout() {
+        if(window.confirm("确认要退出当前账号吗？")) {
+            logout()
+        }
+    }
+
+    logoutBtn.addEventListener("click", confirmLogout)
+</script>
+
+<script>
+    getWebLog = document.getElementById("webLog")
+    getUserList = document.getElementById("userList")
+    getArticleList = document.getElementById("articleList")
+    getMovieList = document.getElementById("movieList")
+    board = document.getElementById("board")
+
+    getWebLog.addEventListener("click", tryGetLog)
+    function tryGetLog() {
+        $.get("/admin/webLog", {}, showLog)
+    }
+    function showLog(data) {
+        boardContent = document.createElement("div")
+        boardContent.className = "webLog"
+        logContent = document.createElement("div")
+        logContent.innerText = data
+        boardContent.appendChild(logContent)
+
+        board.innerHTML = ""
+        board.appendChild(boardContent)
+    }
+
+    getUserList.addEventListener("click", getUsers)
+    function getUsers() {
+        $.getJSON("/admin/getUserList", {}, showUserList)
+    }
+    function showUserList(data) {
+        boardContent = document.createElement("div")
+        userList = document.createElement("table")
+        userList.className = "userList"
+        userListTitle = document.createElement("tr")
+        userListTitle.className = "userLine"
+        userLabel = document.createElement("th")
+        userLabel.className = "userLabel"
+        userLabel.innerText = "用户编号"
+        userListTitle.appendChild(userLabel)
+        userLabel = document.createElement("th")
+        userLabel.className = "userLabel"
+        userLabel.innerText = "用户名"
+        userListTitle.appendChild(userLabel)
+        userLabel = document.createElement("th")
+        userLabel.className = "userLabel"
+        userLabel.innerText = "用户密码"
+        userListTitle.appendChild(userLabel)
+        userLabel = document.createElement("th")
+        userLabel.className = "userLabel"
+        userLabel.innerText = "操作"
+        userListTitle.appendChild(userLabel)
+        userList.appendChild(userListTitle)
+
+        users = data["userList"]
+        for(i = 0; i < users.length; i ++) {
+            userLine = document.createElement("tr")
+            userLine.className = "userLine"
+            userId = document.createElement("td")
+            userId.className = "userLabel"
+            userId.innerText = "" + (i+1)
+            userLine.appendChild(userId)
+            username = document.createElement("td")
+            username.className = "userLabel"
+            username.innerText = users[i].Username
+            userLine.appendChild(username)
+            password = document.createElement("td")
+            password.className = "userLabel"
+            password.innerText = users[i].Password
+            userLine.appendChild(password)
+            userOperation = document.createElement("td")
+            userOperation.className = "operation"
+            userOperation.id = users[i].Username
+            userOperation.innerText = "删除该用户"
+            userOperation.addEventListener("click", function () {
+                $.post("/admin/deleteUser", {"username": this.getAttribute("id")}, function (){
+                    clickEvent = new Event("click")
+                    getUserList.dispatchEvent(clickEvent)
+                })
+            })
+            userLine.appendChild(userOperation)
+            userList.appendChild(userLine)
+        }
+
+        boardContent.appendChild(userList)
+
+        addUserBoard = document.createElement("div")
+        addUserBtn = document.createElement("button")
+        addUserBtn.type = "button"
+        addUserBtn.className = "addUserBtn"
+        addUserBtn.innerText = "添加新用户"
+        addUserBoard.appendChild(addUserBtn)
+        boardContent.appendChild(addUserBoard)
+
+        board.innerHTML = ""
+        board.appendChild(boardContent)
+
+        addUserBtn.addEventListener("click", newUser)
+        function newUser() {
+            addUserBoard.innerHTML = ""
+            addUserLine = document.createElement("div")
+            addUserLine.className = "addUserLine"
+            addUserLine.innerText = "新用户的用户名："
+            inputBox = document.createElement("input")
+            inputBox.type = "text"
+            inputBox.id = "newUsername"
+            inputBox.maxLength = 10
+            addUserLine.appendChild(inputBox)
+            addUserBoard.appendChild(addUserLine)
+            addUserLine = document.createElement("div")
+            addUserLine.className = "addUserLine"
+            addUserLine.innerText = "新用户的密码："
+            inputBox = document.createElement("input")
+            inputBox.type = "text"
+            inputBox.id = "newPassword"
+            inputBox.maxLength = 6
+            addUserLine.appendChild(inputBox)
+            addUserBoard.appendChild(addUserLine)
+            submitBtn = document.createElement("button")
+            submitBtn.type = "button"
+            submitBtn.className = "addUserBtn"
+            submitBtn.innerText = "添加"
+            addUserBoard.appendChild(submitBtn)
+
+            submitBtn.addEventListener("click", tryAddUser)
+            function tryAddUser() {
+                newUsername = document.getElementById("newUsername")
+                newPassword = document.getElementById("newPassword")
+                infoCorrect = true
+                if(newUsername.value.length < 3 || newPassword.value.length < 6) {
+                    infoCorrect = false
+                    window.alert("用户名或密码格式不正确！\n要求：用户名长度为3～10位，密码长度为6位。")
+                }
+                if(infoCorrect) {
+                    for(i = 0; i < users.length; i ++) {
+                        if(users[i].Username === newUsername.value) {
+                            infoCorrect = false
+                            break
+                        }
+                    }
+                    if(!infoCorrect) {
+                        window.alert("用户名已存在")
+                    }
+                }
+                if(infoCorrect) {
+                    addUserInfo = {"username": newUsername.value, "password": newPassword.value}
+                    $.post("/admin/addNewUser", addUserInfo, function () {
+                        clickEvent = new Event("click")
+                        getUserList.dispatchEvent(clickEvent)
+                    })
+                }
+            }
+        }
+    }
+
+    getArticleList.addEventListener("click", getArticles)
+    function getArticles() {
+        $.getJSON("/admin/getArticleList", {}, showArticleList)
+    }
+    function  showArticleList(data) {
+        boardContent = document.createElement("div")
+        articleList = document.createElement("table")
+        articleList.className = "userList"
+        articleListTitle = document.createElement("tr")
+        articleListTitle.className = "userLine"
+        articleLabel = document.createElement("th")
+        articleLabel.className = "userLabel"
+        articleLabel.innerText = "文章编号"
+        articleListTitle.appendChild(articleLabel)
+        articleLabel = document.createElement("th")
+        articleLabel.className = "userLabel"
+        articleLabel.innerText = "文章标题"
+        articleListTitle.appendChild(articleLabel)
+        articleLabel = document.createElement("th")
+        articleLabel.className = "userLabel"
+        articleLabel.innerText = "文章作者"
+        articleListTitle.appendChild(articleLabel)
+        articleLabel = document.createElement("th")
+        articleLabel.className = "userLabel"
+        articleLabel.innerText = "上传时间"
+        articleListTitle.appendChild(articleLabel)
+        articleLabel = document.createElement("th")
+        articleLabel.className = "userLabel"
+        articleLabel.innerText = "操作"
+        articleListTitle.appendChild(articleLabel)
+        articleList.appendChild(articleListTitle)
+
+        articles = data["articles"]
+        for(i = 0; i < articles.length; i ++) {
+            articleLine = document.createElement("tr")
+            articleLine.className = "userLine"
+            articleId = document.createElement("td")
+            articleId.className = "userLabel"
+            articleId.innerText = articles[i].Id
+            articleLine.appendChild(articleId)
+            articlename = document.createElement("td")
+            articlename.className = "userLabel"
+            articlename.innerText = articles[i].Articlename
+            articleLine.appendChild(articlename)
+            author = document.createElement("td")
+            author.className = "userLabel"
+            author.innerText = articles[i].Author
+            articleLine.appendChild(author)
+            addtime = document.createElement("td")
+            addtime.className = "userLabel"
+            addtime.innerText = articles[i].Addtime
+            articleLine.appendChild(addtime)
+            articleOperation = document.createElement("td")
+            articleOperation.className = "operation"
+            articleOperation.id = articles[i].Id
+            articleOperation.innerText = "删除"
+            articleOperation.addEventListener("click", function () {
+                $.get("/admin/deleteArticle", {"articleId": this.getAttribute("id")}, function (){
+                    clickEvent = new Event("click")
+                    getArticleList.dispatchEvent(clickEvent)
+                })
+            })
+            articleLine.appendChild(articleOperation)
+            articleList.appendChild(articleLine)
+        }
+
+        boardContent.appendChild(articleList)
+
+        board.innerHTML = ""
+        board.appendChild(boardContent)
+    }
+
+    getMovieList.addEventListener("click", getMovies)
+    function getMovies() {
+        $.get("/admin/getMovieList", {}, showMovieList)
+    }
+    function showMovieList(data) {
+        boardContent = document.createElement("div")
+        movieList = document.createElement("table")
+        movieList.className = "userList"
+        movieListTitle = document.createElement("tr")
+        movieListTitle.className = "userLine"
+        movieLabel = document.createElement("th")
+        movieLabel.className = "userLabel"
+        movieLabel.innerText = "电影编号"
+        movieListTitle.appendChild(movieLabel)
+        movieLabel = document.createElement("th")
+        movieLabel.className = "userLabel"
+        movieLabel.innerText = "电影名"
+        movieListTitle.appendChild(movieLabel)
+        movieLabel = document.createElement("th")
+        movieLabel.className = "userLabel"
+        movieLabel.innerText = "上传时间"
+        movieListTitle.appendChild(movieLabel)
+        movieLabel = document.createElement("th")
+        movieLabel.className = "userLabel"
+        movieLabel.innerText = "存储路径"
+        movieListTitle.appendChild(movieLabel)
+        movieLabel = document.createElement("th")
+        movieLabel.className = "userLabel"
+        movieLabel.innerText = "操作"
+        movieListTitle.appendChild(movieLabel)
+        movieList.appendChild(movieListTitle)
+
+        movies = data["movieList"]
+        for(i = 0; i < movies.length; i ++) {
+            movieLine = document.createElement("tr")
+            movieLine.className = "userLine"
+            movieId = document.createElement("td")
+            movieId.className = "userLabel"
+            movieId.innerText = movies[i].Id
+            movieLine.appendChild(movieId)
+            moviename = document.createElement("td")
+            moviename.className = "userLabel"
+            moviename.innerText = movies[i].Moviename
+            movieLine.appendChild(moviename)
+            addtime = document.createElement("td")
+            addtime.className = "userLabel"
+            addtime.innerText = movies[i].Addtime
+            movieLine.appendChild(addtime)
+            path = document.createElement("td")
+            path.className = "userLabel"
+            path.innerText = movies[i].Path
+            movieLine.appendChild(path)
+            movieOperation = document.createElement("td")
+            movieOperation.className = "operation"
+            movieOperation.id = movies[i].Id
+            movieOperation.innerText = "删除"
+            movieOperation.addEventListener("click", function () {
+                $.get("/admin/deleteMovie", {"movieId": this.getAttribute("id")}, function (){
+                    clickEvent = new Event("click")
+                    getMovieList.dispatchEvent(clickEvent)
+                })
+            })
+            movieLine.appendChild(movieOperation)
+            movieList.appendChild(movieLine)
+        }
+
+        boardContent.appendChild(movieList)
+
+        addMovieBoard = document.createElement("div")
+        addMovieBtn = document.createElement("button")
+        addMovieBtn.type = "button"
+        addMovieBtn.className = "addUserBtn"
+        addMovieBtn.innerText = "添加新电影"
+        addMovieBoard.appendChild(addMovieBtn)
+        boardContent.appendChild(addMovieBoard)
+
+        board.innerHTML = ""
+        board.appendChild(boardContent)
+
+        addMovieBtn.addEventListener("click", openAddMovieBoard)
+        function openAddMovieBoard() {
+            addMovieBoard.innerHTML = ""
+            addMovieLine = document.createElement("div")
+            addMovieLine.className = "addUserLine"
+            addMovieLine.innerText = "新电影的电影名："
+            inputBox = document.createElement("input")
+            inputBox.type = "text"
+            inputBox.id = "newMovieName"
+            inputBox.maxLength = 30
+            addMovieLine.appendChild(inputBox)
+            addMovieBoard.appendChild(addMovieLine)
+            addMovieLine = document.createElement("div")
+            addMovieLine.className = "addUserLine"
+            addMovieLine.innerText = "选择图片作为电影封面："
+            inputBox = '<input type="file" accept="image/*" id="newMovieCover" required>'
+            addMovieLine.innerHTML = addMovieLine.innerHTML + inputBox
+            addMovieBoard.appendChild(addMovieLine)
+            addMovieLine = document.createElement("div")
+            addMovieLine.className = "addUserLine"
+            addMovieLine.innerText = "选择上传电影文件："
+            inputBox = '<input type="file" accept="video/*" id="newMovieFile" required>'
+            addMovieLine.innerHTML = addMovieLine.innerHTML + inputBox
+            addMovieBoard.appendChild(addMovieLine)
+            submitBtn = document.createElement("button")
+            submitBtn.type = "button"
+            submitBtn.className = "addUserBtn"
+            submitBtn.innerText = "上传"
+            addMovieBoard.appendChild(submitBtn)
+
+            submitBtn.addEventListener("click", submitNewMovie)
+            function submitNewMovie() {
+                newMovieName = document.getElementById("newMovieName").value
+                newMovieCover = document.getElementById("newMovieCover").files[0]
+                newMovieFile = document.getElementById("newMovieFile").files[0]
+                isCorrect = true
+
+                if (newMovieName.length < 1) {
+                    isCorrect = false
+                    window.alert("请输入电影名")
+                }
+                if(isCorrect && newMovieCover == null) {
+                    isCorrect = false
+                    window.alert("请上传电影封面")
+                }
+                if(isCorrect && newMovieFile == null) {
+                    isCorrect = false
+                    window.alert("请上传电影文件")
+                }
+                if(isCorrect) {
+                    formData = new FormData()
+                    formData.append("name", newMovieName)
+                    formData.append("cover", newMovieCover)
+                    formData.append("file", newMovieFile)
+
+                    $.ajax({
+                        type: 'post',
+                        url: "/admin/addNewMovie",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        success: function() {
+                            clickEvent = new Event("click")
+                            getMovieList.dispatchEvent(clickEvent)
+                        }
+                    })
+                }
+            }
+        }
+    }
+
+</script>
+
+</html>

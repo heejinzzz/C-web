@@ -1,0 +1,47 @@
+body {
+    margin: 0 10%;
+    font-family: "Microsoft YaHei UI", serif;
+}
+
+.head {
+    background-color: #00008B;
+    border: 10px outset #00008B ;
+    margin: 0 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: xxx-large;
+    font-weight: bold;
+    color: #FF00FF;
+}
+
+h2 {
+    font-size: xx-large;
+    font-weight: bold;
+    color: #FF00FF;
+}
+
+.movieBoard {
+    text-align: center;
+    margin: 3% 2%;
+    padding: 1%;
+    border : 8px groove orange;
+    float: left;
+    cursor: pointer;
+}
+
+.movieBoard:hover {
+    font-weight: bolder;
+}
+
+h3 {
+    text-align: center;
+    font-size: xxx-large;
+    font-weight: bolder;
+}
+
+.movie {
+    display: block;
+    margin: 0 auto 5%;
+}

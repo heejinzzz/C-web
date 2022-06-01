@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>C-web: 上传新博客</title>
+    <link type="text/css" rel="stylesheet" href="/static/cssFiles/blogCSS.css">
+</head>
+<body>
+    <div class="head">
+        <h2>C-web</h2>
+        <hr style="background-color: white; width: 30%">
+        <h1>博 客 园</h1>
+    </div>
+
+    <div class="addBlogBoard">
+        <h3>博文标题：</h3>
+        <input type="text" style="height: 2em" size="100" maxlength="30" autofocus id="title">
+        <br><br><br>
+        <h3>博文内容：</h3>
+        <div>
+            <textarea rows="40" cols="100" id="content"></textarea>
+        </div>
+        <button type="button" class="submitBlogBtn" id="btn">上传</button>
+    </div>
+</body>
+
+<script src="/static/jsFiles/jquery-3.6.0.js"></script>
+<script>
+    btn = document.getElementById("btn")
+    btn.addEventListener("click", uploadBlog)
+    function uploadBlog() {
+        $.get("/user/getUsername", {}, checkLogin)
+    }
+    function checkLogin(data) {
+        isLogin = true
+        if(data === "") {
+            isLogin = false
+            window.alert("您的登录信息已过期！\n请在登录页面重新登录后，再在该页面点击上传。")
+        }
+        if(isLogin) {
+            correct = true
+            title = document.getElementById("title").value
+            if(title.length === 0) {
+                correct = false
+                window.alert("博文标题不能为空！")
+            }
+            if(correct){
+                content = document.getElementById("content").value
+                $.post("/user/saveNewBlog", {"title":title, "author":data, "content":content}, function () {
+                    window.open("/user/blogList", "_self")
+                })
+            }
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title id="pageTitle">C-web: </title>
+    <link type="text/css" rel="stylesheet" href="/static/cssFiles/blogCSS.css">
+</head>
+<body id="body" style="background-color: #a6f8af">
+    <div class="head">
+        <h2>C-web</h2>
+        <hr style="background-color: white; width: 30%">
+        <h1>博 客 园</h1>
+    </div>
+</body>
+
+<script src="/static/jsFiles/jquery-3.6.0.js"></script>
+<script>
+    body = document.getElementById("body")
+
+    function getQueryValue(queryName)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] === queryName){return pair[1];}
+        }
+        return(false);
+    }
+
+    id = getQueryValue("id")
+    $.getJSON("/user/getBlog", {"id": id}, function (data) {
+        name = data["name"]
+        author = data["author"]
+        addtime = data["addtime"]
+        content = data["content"]
+
+        pageTitle = document.getElementById("pageTitle")
+        pageTitle.innerText += name
+
+        blogName = document.createElement("div")
+        blogName.className = "blogName"
+        blogName.innerText = name
+        body.appendChild(blogName)
+        blogHr = document.createElement("hr")
+        blogHr.className = "articleHr"
+        body.appendChild(blogHr)
+        blogInfo = document.createElement("div")
+        blogInfo.className = "blogInfo"
+        blogInfo.innerHTML = "作者：" + author +
+            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+            "上传时间：" + addtime
+        body.appendChild(blogInfo)
+
+        paragraphs = content.split("\n")
+        for(i = 0; i < paragraphs.length; i ++) {
+            p = document.createElement("div")
+            p.className = "paragraph"
+            p.innerText = paragraphs[i]
+            body.appendChild(p)
+        }
+    })
+</script>
+
+</html>

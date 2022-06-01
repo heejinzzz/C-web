@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>C-web: 首页</title>
+    <link rel="stylesheet" type="text/css" href="/static/cssFiles/basicCSS.css">
+</head>
+<body>
+    <div class="header">
+        <h1>C-web</h1>
+    </div>
+
+    <div class="board">
+        <img style="float: left; margin: 0 5% 0 10%" src="/static/images/blueLogo.png" alt="图片加载失败"></img>
+        <span style="clear: both"></span>  <!--消除浮动float-->
+
+        <div style="padding: 8% 2% 3% 2%; float: left">
+            <div class="entranceContainer">
+                <p class="entrance" id="userEntrance">用户入口</p>
+            </div>
+            <br>
+            <div class="entranceContainer">
+                <p class="entrance" id="adminEntrance">管理员入口</p>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both"></div>  <!--消除浮动float-->
+
+
+    <div class="footer">
+        <h3>
+            Written by heejinzzz <br> <br>
+            email: 1273860443@qq.com
+        </h3>
+    </div>
+</body>
+
+    <script>
+        userEntrance = document.getElementById("userEntrance")
+        adminEntrance = document.getElementById("adminEntrance")
+        function userLogin() {
+            window.open("/user", "_self")
+        }
+        function adminLogin() {
+            window.open("/admin", "_self")
+        }
+        userEntrance.addEventListener("click", userLogin)
+        adminEntrance.addEventListener("click", adminLogin)
+    </script>
+</html>

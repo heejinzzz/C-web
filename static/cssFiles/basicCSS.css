@@ -1,0 +1,90 @@
+body {
+    font-family: "Microsoft JhengHei UI", serif;
+    margin: 0 10%;
+    min-height: 100%;
+}
+
+.header {
+    background-color: #00BFFF;
+    border: 10px #00BFFF outset;
+    margin: 0 0;
+    text-align: center;
+}
+
+.footer {
+    background-color: #00BFFF;
+    border: 7px #000080 solid;
+    position: absolute;
+    bottom: 0;
+    margin: 0 0;
+    min-width: 80%;
+    text-align: center;
+}
+
+h1 {
+    padding: 0;
+    font-weight: bolder;
+    font-size: xxx-large;
+    color: white;
+}
+
+h3 {
+    padding: 0;
+    font-size: large;
+    color: white;
+}
+
+.board {
+    margin: 0 0;
+}
+
+.entranceContainer {
+    text-align: center;
+    background-color: #00BFFF;
+    height: 50%;
+    width: 300%;
+    padding: 5% 10%;
+    margin: 15% 10%;
+    border: 5px ridge white;
+    border-radius: 20px 20px;
+}
+
+.entrance {
+    font-size: x-large;
+    font-weight: normal;
+    color: white;
+    cursor: pointer;
+}
+
+.entrance:hover {
+    font-weight: bolder;
+}
+
+.loginBoard {
+    background-color: #00BFFF;
+    margin: 6% 10% 5% 5%;
+    width: 25%;
+    height: 30%;
+    float: left;
+    padding: 5% 5%;
+    text-align: center;
+    color: white;
+    font-size: x-large;
+}
+
+.loginForm {
+    text-align: center;
+    font-weight: normal;
+    font-size: large;
+    color: white;
+}
+
+.loginBtn {
+    padding: 3% 6%;
+}
+
+.wrongMsg {
+    color: red;
+    font-size: small;
+    margin: 0 0 2% 0;
+}

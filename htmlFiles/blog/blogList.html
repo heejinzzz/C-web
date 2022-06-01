@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>C-web: 博客园</title>
+    <link type="text/css" rel="stylesheet" href="/static/cssFiles/blogCSS.css">
+</head>
+<body>
+    <div class="head">
+        <h2>C-web</h2>
+        <hr style="background-color: white; width: 30%">
+        <h1>博 客 园</h1>
+    </div>
+
+    <div id="board">
+        <button id="addBtn" class="button">上传我的博客</button>
+    </div>
+</body>
+
+<script src="/static/jsFiles/jquery-3.6.0.js"></script>
+<script>
+    board = document.getElementById("board")
+
+    $.getJSON("/user/getBlogList", {}, showBlogList)
+    function showBlogList(data) {
+        blogs = data["blogList"]
+        console.log(blogs)
+        for(i = 0; i < blogs.length; i ++) {
+            blogBoard = document.createElement("div")
+            blogBoard.className = "blogBoard"
+            blogBoard.id = blogs[i].Id
+            blogTitle = document.createElement("div")
+            blogTitle.className = "blogTitle"
+            blogTitle.innerText = blogs[i].Articlename
+            blogBoard.appendChild(blogTitle)
+            articleHr = document.createElement("hr")
+            articleHr.className = "articleHr"
+            blogBoard.appendChild(articleHr)
+            blogInfo = document.createElement("div")
+            blogInfo.className = "blogInfo"
+            blogInfo.innerHTML = "作者：" + blogs[i].Author +
+                "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                "上传时间：" + blogs[i].Addtime
+            blogBoard.appendChild(blogInfo)
+
+            blogBoard.addEventListener("click", watchBlog)
+            function watchBlog() {
+                window.open("/user/watchBlog?id="+this.id)
+            }
+
+            board.appendChild(blogBoard)
+        }
+    }
+
+    addBtn = document.getElementById("addBtn")
+    addBtn.addEventListener("click", addBlog)
+    function addBlog() {
+        window.open("/user/addNewBlog", "_self")
+    }
+
+</script>
+
+</html>

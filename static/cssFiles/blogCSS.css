@@ -1,0 +1,100 @@
+body {
+    font-family: "Microsoft YaHei UI", serif;
+    margin: 0 10%;
+}
+
+.head {
+    background-color: green;
+    border: 10px outset green ;
+    margin: 0 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: xxx-large;
+    font-weight: bold;
+    color: white;
+}
+
+h2 {
+    font-size: xx-large;
+    font-weight: bold;
+    color: white;
+}
+
+.button {
+    float: right;
+    background-color: #7FFF00;
+    font-size: x-large;
+    cursor: pointer;
+    padding: 1.5% 3%;
+}
+
+.button:hover {
+    font-weight: bolder;
+}
+
+.blogBoard {
+    background-color: whitesmoke;
+    width: 60%;
+    margin: 3% 25% 3% auto;
+    padding: 2% 5%;
+    cursor: pointer;
+}
+
+.blogBoard:hover {
+    font-weight: bolder;
+}
+
+.blogTitle {
+    text-align: center;
+    margin: 1% auto 3%;
+    font-size: large;
+    font-weight: bold;
+}
+
+.articleHr {
+    width: 80%;
+    border: 0.5px dashed black;
+}
+
+.blogInfo {
+    text-align: center;
+    margin: 2% auto 0;
+    font-size: medium;
+}
+
+.blogName {
+    font-size: xxx-large;
+    text-align: center;
+    margin: 3% auto 2%;
+    font-weight: bolder;
+}
+
+.paragraph {
+    width: 60%;
+    font-size: x-large;
+    margin: 3% auto 0;
+    text-indent: 2em;
+    text-align: justify;
+}
+
+.addBlogBoard {
+    width: 80%;
+    margin: 0 auto;
+    padding: 5% 0 0 20%;
+}
+
+h3 {
+    font-size: xx-large;
+    font-weight: bolder;
+    margin: 0 0 3% 0;
+}
+
+.submitBlogBtn {
+    width: 14%;
+    margin: 5% 26% 10%;
+    padding: 1% 2%;
+    font-size: large;
+    cursor: pointer;
+}

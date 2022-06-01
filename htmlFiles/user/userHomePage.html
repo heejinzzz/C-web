@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>C_web: 用户主页</title>
+    <link type="text/css" rel="stylesheet" href="/static/cssFiles/userCSS.css">
+</head>
+<body>
+    <div class="header">
+        <h1>C-web</h1>
+    </div>
+
+    <div class="titleLine">
+        <div class="title">用 户 主 页</div>
+        <div class="logoutBtn" id="logoutBtn">退出登录</div>
+        <div style="margin: 0 1% 0 0; float: right; height: 10%">
+            <div class="welcome" id="welcome">欢迎你，用户：</div>
+        </div>
+    </div>
+
+    <div class="articleEnterContainer" id="aec">
+        <div class="articleEnter">博 客 园</div>
+    </div>
+    <div class="movieEnterContainer" id="mec">
+        <div class="movieEnter">影 院</div>
+    </div>
+</body>
+
+<script src="/static/jsFiles/jquery-3.6.0.js"></script>
+<script>
+    welcome = document.getElementById("welcome")
+    $.get("/user/getUsername", {}, function (data) {
+        welcome.innerText = welcome.innerText + data
+    })
+
+    btn = document.getElementById("logoutBtn")
+    btn.addEventListener("click", logout)
+    function logout() {
+        $.get("/user/logout", {}, function () {
+            location.reload()
+        })
+    }
+
+    aec = document.getElementById("aec")
+    aec.addEventListener("click", function () {
+        window.open("/user/blogList")
+    })
+    mec = document.getElementById("mec")
+    mec.addEventListener("click", function () {
+        window.open("/user/cinema")
+    })
+</script>
+
+</html>

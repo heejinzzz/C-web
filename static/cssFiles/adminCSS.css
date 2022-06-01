@@ -1,0 +1,161 @@
+body {
+    margin: 0 10%;
+    font-family: "Microsoft YaHei UI", serif;
+
+}
+
+.header {
+    background-color: black;
+    border: 10px #696969 outset;
+    margin: 0 0;
+    text-align: center;
+}
+
+.footer {
+    background-color: black;
+    border: 7px #696969 solid;
+    margin: 0 0;
+    min-width: 80%;
+    text-align: center;
+}
+
+h1 {
+    padding: 0;
+    font-weight: bolder;
+    font-size: xxx-large;
+    color: white;
+}
+
+h3 {
+    padding: 0;
+    font-size: large;
+    color: white;
+}
+
+.titleLine {
+    margin: 0 0;
+    background-color: black;
+    border: 15px ridge #696969;
+    padding: 2% 5% 2.5% 8%;
+    line-height: 100%;
+}
+
+.pageName {
+    color: white;
+    font-weight: bold;
+    font-size: xx-large;
+    margin: 0 0 0.5% 0;
+}
+
+.logoutBtn {
+    color: white;
+    float: right;
+    font-size: small;
+    text-decoration: underline;
+    cursor: pointer;
+    margin: 0 0 0 1%
+}
+
+.welcome {
+    color: white;
+    font-size: large;
+    float: right;
+}
+
+.menuColumn {
+    margin: 0 0;
+    background-color: black;
+    float: left;
+    padding: 1% 6%;
+    border: 10px solid #696969;
+}
+
+.menuItem {
+    text-align: center;
+    color: white;
+    margin: 1% 0;
+    font-size: xx-large;
+    padding: 15% 0;
+    cursor: pointer;
+}
+
+.menuItem:hover {
+    font-weight: bolder;
+}
+
+.menuHr {
+    background-color: white;
+    color: white;
+}
+
+.adminBoard {
+    float: left;
+    padding: 3% 7%;
+    width: 60%;
+}
+
+.defaultMsg {
+    text-align: center;
+    font-size: xxx-large;
+    font-weight: bold;
+    color: black;
+    padding: 10% 0 0 0;
+    float: right;
+    width: 45%;
+}
+
+.defaultHr {
+    background-color: black;
+    height: 2px;
+    color: black;
+}
+
+.webLog {
+    border: 8px ridge black;
+    padding: 2% 2% 2% 2%;
+    color: black;
+    text-align: left;
+}
+
+.userList {
+    text-align: center;
+    border: 10px ridge #696969;
+    margin: 1% 2% 1% 4%;
+}
+
+.userLine {
+    padding: 2% 4%;
+}
+
+.userLabel {
+    margin: 0;
+    border: 5px solid #696969;
+    font-size: medium;
+    padding: 2% 4%;
+    width: 2%;
+}
+
+.operation {
+    margin: 0;
+    border: 5px solid #696969;
+    font-size: medium;
+    padding: 2% 4%;
+    width: 2%;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.addUserBtn {
+    margin: 3% 42%;
+    text-align: center;
+    padding: 1% 2%;
+    cursor: pointer;
+    width: 15%;
+}
+
+.addUserLine {
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+    margin: 4%;
+}

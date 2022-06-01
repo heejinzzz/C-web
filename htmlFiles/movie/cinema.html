@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>C-web: 影院</title>
+    <link type="text/css" rel="stylesheet" href="/static/cssFiles/movieCSS.css">
+</head>
+<body>
+    <div class="head">
+        <h2>C-web</h2>
+        <hr style="background-color: white; width: 30%">
+        <h1>影 &nbsp;&nbsp;院</h1>
+    </div>
+
+    <div id="board"></div>
+</body>
+
+<script src="/static/jsFiles/jquery-3.6.0.js"></script>
+<script>
+    board = document.getElementById("board")
+
+    $.getJSON("/user/getMovieList", {}, showMovies)
+    function showMovies(data) {
+        movies = data["movieList"]
+        for(i = 0; i < movies.length; i ++) {
+            movieBoard = document.createElement("div")
+            movieBoard.className = "movieBoard"
+            movieBoard.id = movies[i].Id
+
+            coverpath = movies[i].Coverpath.slice(1)
+            cover = document.createElement("img")
+            cover.height = 160
+            cover.width = 140
+            cover.alt = "电影封面加载失败"
+            cover.src = coverpath
+            movieBoard.appendChild(cover)
+
+            name = movies[i].Moviename
+            if(name.length > 6) {
+                name = name.slice(0, 6) + "..."
+            }
+            movieBoard.innerHTML += "<div>" + name + "</div>"
+
+            board.appendChild(movieBoard)
+
+            movieBoard.addEventListener("click", watchMovie)
+            function watchMovie() {
+                window.open("/user/watchMovie?id="+this.id)
+            }
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,89 @@
+body {
+    font-family: "Microsoft YaHei UI", serif;
+    margin: 0 10%;
+}
+
+.header {
+    background-color: orange;
+    border: 10px outset orange ;
+    margin: 0 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: xxx-large;
+    font-weight: bolder;
+    color: white;
+}
+
+.titleLine {
+    background-color: orange;
+    border: 15px ridge chocolate;
+    margin:0 0;
+    padding: 3% 5%;
+}
+
+.title {
+    font-size: xx-large;
+    font-weight: bold;
+    color: white;
+}
+
+.logoutBtn {
+    font-size: small;
+    text-decoration: underline;
+    color: white;
+    float: right;
+    cursor: pointer;
+    margin: 0.5% 0;
+}
+
+.welcome {
+    font-size: large;
+    font-weight: bold;
+    color: white;
+}
+
+.articleEnterContainer {
+    background-color: green;
+    margin: 4% auto;
+    border: 10px groove white;
+    width: 20%;
+    height: 10%;
+    padding: 2% 5%;
+    font-size: xx-large;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.articleEnterContainer:hover {
+    font-size: xxx-large;
+}
+
+.articleEnter {
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}
+
+.movieEnterContainer {
+    background-color: #00008B;
+    margin: 4% auto;
+    border: 10px groove white;
+    width: 20%;
+    height: 10%;
+    padding: 2% 5%;
+    font-size: xx-large;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.movieEnterContainer:hover {
+    font-size: xxx-large;
+}
+
+.movieEnter {
+    margin: 0 auto;
+    text-align: center;
+    color: #FF00FF;
+}

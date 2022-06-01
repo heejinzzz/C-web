@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>C-web: 管理员登录</title>
+    <link rel="stylesheet" type="text/css" href="/static/cssFiles/basicCSS.css">
+</head>
+<body>
+<script src="/static/jsFiles/jquery-3.6.0.js"></script>
+
+<div class="header">
+    <h1>C-web</h1>
+</div>
+
+<div class="board">
+    <img style="float: left; margin: 0 0 0 10%" src="/static/images/blueLogo.png" alt="图片加载失败"></img>
+    <span style="clear: both"></span>  <!--消除浮动float-->
+
+    <div class="loginBoard">
+        管理员登录
+        <hr>
+        <form class="loginForm" id="loginForm">
+            用户名：<input type="text" name="adminname" maxlength="10">
+            <br>
+            <br>
+            密码：<input type="password" name="password" maxlength="6">
+        </form>
+        <br>
+        <button type="button" id="loginBtn" class="loginBtn">登录</button>
+    </div>
+</div>
+<div style="clear: both"></div>  <!--消除浮动float-->
+
+
+<div class="footer">
+    <h3>
+        Written by heejinzzz <br> <br>
+        email: 1273860443@qq.com
+    </h3>
+</div>
+</body>
+
+<script>
+    tag = 0
+    form = document.getElementById("loginForm")
+    btn = document.getElementById("loginBtn")
+
+    function wrongInput() {
+        wrongMsg = document.createElement("div")
+        wrongMsg.className = "wrongMsg"
+        wrongMsg.innerText = "请输入正确的用户名与密码!"
+        wrongMsg.id = "wrongMsg"
+        if(tag === 2) {
+            tag = 1
+            wrongMsg2 = document.getElementById("wrongMsg2")
+            wrongMsg2.parentNode.replaceChild(wrongMsg, wrongMsg2)
+        }else {
+            tag = 1
+            btn.parentNode.insertBefore(wrongMsg, btn)
+        }
+    }
+
+    function checkAndSubmit() {
+        adminname = form["adminname"]
+        password = form["password"]
+        if((adminname.value.length < 3 || adminname.value.length > 10 || password.value.length !== 6)) {
+            if(tag !== 1) {
+                wrongInput()
+            }
+        } else {
+            msg = {"adminname": adminname.value, "password": password.value}
+            $.get("/checkAdminPassword", msg, checkAnswer)
+        }
+    }
+
+    function checkAnswer(data) {
+        if(data !== "correct" && tag !== 2) {
+            wrongMsg2 = document.createElement("div")
+            wrongMsg2.className = "wrongMsg"
+            wrongMsg2.id = "wrongMsg2"
+            wrongMsg2.innerText = "输入的用户名或密码错误!"
+            if(tag === 1){
+                tag = 2
+                wrongMsg = document.getElementById("wrongMsg")
+                wrongMsg.parentNode.replaceChild(wrongMsg2, wrongMsg)
+            }else {
+                tag = 2
+                btn.parentNode.insertBefore(wrongMsg2, btn)
+            }
+        }else if(data === "correct") {
+            $.get("/getAdminLogin", msg, function (data){window.open("/admin", "_self")})
+        }
+    }
+
+    btn.addEventListener("click", checkAndSubmit)
+</script>
+
+</html>
